@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Империя комиксов{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Логотип Империи">
+        </header>
+
+        {% block content %}{% endblock %}
+
+        <footer>
+            &copy; 2025 — Только для избранных джедаев и ситхов
+        </footer>
+    </div>
+</body>
+</html>

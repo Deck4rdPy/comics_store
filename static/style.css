@@ -1,0 +1,85 @@
+/* static/style.css */
+body {
+    background-color: #000;
+    color: #ff9900;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    padding: 0;
+
+    background-image: url('images/background.jpg') !important;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 25px;
+    border: 2px solid #ff0000;
+    border-radius: 8px;
+    margin-top: 30px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header img {
+    max-width: 250px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #ff0000;
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    color: #00ccff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+input, button {
+    background-color: #111;
+    color: #ff9900;
+    border: 1px solid #ff0000;
+    padding: 10px;
+    margin: 8px 0;
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #220000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #440000;
+}
+
+ul {
+    list-style-type: '⚔️ ';
+    padding-left: 20px;
+    font-size: 1.1em;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #666;
+}
