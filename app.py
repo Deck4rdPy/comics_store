@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
+import random
 import os
 
 app = Flask(__name__)
@@ -34,14 +36,29 @@ def init_db():
     conn.commit()
     conn.close()
 
+
+def get_random_star_wars_character():
+    """Возвращает имя случайного персонажа из Звёздных войн"""
+    try:
+        response = requests.get("https://swapi.dev/api/people/")
+        response.raise_for_status()
+        data = response.json()
+        characters = data['results'][:30]
+        return random.choice(characters)['name']
+    except Exception as e:
+        print(f"Ошибка при получении персонажа: {e}")
+        return "Таинственный джедай"
+
 def get_db_connection():
     conn = sqlite3.connect('comics.db')
     conn.row_factory = sqlite3.Row
     return conn
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -62,6 +79,7 @@ def register():
         finally:
             conn.close()
     return render_template('register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -86,7 +104,9 @@ def comics():
     if 'username' not in session:
         return redirect('/login')
 
-    # Список комиксов с обложками
+    # Получаем случайного персонажа
+    character_name = get_random_star_wars_character()
+
     comics_list = [
         {
             "title": "Darth Vader #1",
@@ -110,12 +130,19 @@ def comics():
         }
     ]
 
-    return render_template('comics.html', username=session['username'], comics=comics_list)
+    return render_template(
+        'comics.html',
+        username=session['username'],
+        comics=comics_list,
+        character=character_name  # ← передаём имя персонажа в шаблон
+    )
+
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect('/')
+
 
 # Создаём БД при запуске
 init_db()
