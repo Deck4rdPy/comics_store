@@ -6,11 +6,20 @@ import os
 app = Flask(__name__)
 app.secret_key = 'star_wars_comics_secret_2025'
 
-# Инициализация базы данных
+
 def init_db():
-    if not os.path.exists('comics.db'):
-        conn = sqlite3.connect('comics.db')
-        cursor = conn.cursor()
+    # Всегда подключаемся к БД — даже если файла нет
+    conn = sqlite3.connect('comics.db')
+    cursor = conn.cursor()
+
+    # Проверяем, существует ли таблица users
+    cursor.execute("""
+        SELECT name FROM sqlite_master WHERE type='table' AND name='users';
+    """)
+    table_exists = cursor.fetchone()
+
+    # Если таблицы нет — создаём её
+    if not table_exists:
         cursor.execute('''
             CREATE TABLE users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,8 +27,12 @@ def init_db():
                 password_hash TEXT NOT NULL
             )
         ''')
-        conn.commit()
-        conn.close()
+        print("✅ Таблица 'users' создана.")
+    else:
+        print("ℹ️ Таблица 'users' уже существует.")
+
+    conn.commit()
+    conn.close()
 
 def get_db_connection():
     conn = sqlite3.connect('comics.db')
