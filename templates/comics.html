@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Приветствуем, {{ username }}! ⚔️</h1>
-<h2>Эксклюзивные комиксы Империи:</h2>
-<ul>
-    <li>Darth Vader #1 — Тайны тёмной стороны</li>
-    <li>Yoda: Masters of the Force</li>
-    <li>Rebels: Rise of the Phoenix</li>
-    <li>Star Wars: The High Republic</li>
-</ul>
-<p><a href="/logout">Выйти из системы</a></p>
+<h2>Приветствуем, {{ username }}! ⚔️</h2>
+<p>Доступ разрешён. Вот эксклюзивные комиксы:</p>
+
+<div class="comics-grid">
+{% for comic in comics %}
+    <div class="comic-card">
+        <img src="{{ url_for('static', filename='images/comics/' + comic.cover) }}"
+             alt="{{ comic.title }}">
+        <h3>{{ comic.title }}</h3>
+        <p>{{ comic.description }}</p>
+    </div>
+{% endfor %}
+</div>
+
+<p style="text-align: center; margin-top: 30px;">
+    <a href="/logout">Выйти из системы</a>
+</p>
 {% endblock %}

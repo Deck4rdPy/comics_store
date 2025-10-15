@@ -80,11 +80,37 @@ def login():
             return "Неверный логин или пароль! <a href='/login'>Попробовать снова</a>"
     return render_template('login.html')
 
+
 @app.route('/comics')
 def comics():
     if 'username' not in session:
         return redirect('/login')
-    return render_template('comics.html', username=session['username'])
+
+    # Список комиксов с обложками
+    comics_list = [
+        {
+            "title": "Darth Vader #1",
+            "description": "Тайны тёмной стороны",
+            "cover": "darth_vader.jpg"
+        },
+        {
+            "title": "Yoda: Masters of the Force",
+            "description": "Мудрость древнего джедая",
+            "cover": "yoda.jpg"
+        },
+        {
+            "title": "Rebels: Rise of the Phoenix",
+            "description": "Борьба повстанцев",
+            "cover": "rebels.jpg"
+        },
+        {
+            "title": "The High Republic",
+            "description": "Эпоха величия",
+            "cover": "high_republic.jpg"
+        }
+    ]
+
+    return render_template('comics.html', username=session['username'], comics=comics_list)
 
 @app.route('/logout')
 def logout():
