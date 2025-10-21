@@ -147,5 +147,22 @@ def logout():
 # Создаём БД при запуске
 init_db()
 
+@app.route('/api/status')
+def api_status():
+    """Проверяет, авторизован ли пользователь"""
+    if 'username' in session:
+        return {"status": "authenticated", "user": session['username']}
+    else:
+        return {"status": "unauthenticated"}, 401
+
+'''@app.route('/api/status')
+def api_status():
+    # Получаем токен из заголовка Authorization
+    auth_header = request.headers.get('Authorization')
+    if auth_header == "Bearer secret123":
+        return {"status": "authenticated", "user": "api_user"}
+    else:
+        return {"status": "unauthenticated"}, 401'''
+
 if __name__ == '__main__':
     app.run(debug=True)
